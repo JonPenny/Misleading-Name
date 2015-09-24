@@ -3,15 +3,34 @@ package Tests;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import PokerExceptions.*;
+import PokerGame.PokerGame;
 import junit.framework.Assert;
 
 public class TestGameLogic {
+	PokerGame game;
+	game = new PokerGame();
+	
 	@Test
 	public void testDuplicates(){
 		//Make sure that the same card doesn't appear twice
+		game.reset();
+		game.setPlayers(2);
+		game.addHand(1,"AceSpades","AceSpades","AceSpades","AceSpades","AceSpades");
+		game.addHand(2,"AceSpades","AceSpades","AceSpades","AceSpades","AceSpades");
+		String result = game.getResults();
 		
+		Assert.assertTrue(result.equals("Invalid Hands - Duplicat Cards"));
+		
+		game.reset();
+		game.setPlayers(2);
+		game.addHand(1,"AceSpades","AceSpades","AceSpades","AceSpades","AceSpades");
+		game.addHand(2,"AceSpades","AceSpades","AceSpades","AceSpades","AceSpades");
+		String result = game.getResults();
+		
+		Assert.assertTrue(result.equals("Invalid Hands - Duplicat Cards"));
 	}
 	
+	/**
 	@Test
 	public void testNumberPlayers(){
 		//Test that only 2,3,4 player can play
@@ -46,5 +65,5 @@ public class TestGameLogic {
 	public void testOrderEntry(){
 		//make sure that subissions are id then cards
 	}
-	
+	**/
 }
