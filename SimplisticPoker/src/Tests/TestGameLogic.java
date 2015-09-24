@@ -18,7 +18,16 @@ public class TestGameLogic {
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceSpades", "AceSpades", "AceSpades", "AceSpades");
-			game.addHand(2, "AceSpades", "AceSpades", "AceSpades", "AceSpades", "AceSpades");			
+			game.addHand(2, "ThreeSpades", "FourHearts", "AceClubs", "FiveDiamonds", "SixSpades");
+			Assert.fail();
+		} catch (DuplicateCardException e) {
+			
+		}
+		game.reset();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "ThreeHearts", "FourClubs", "OneClubs", "ThreeClubs");
+			game.addHand(2, "AceSpades", "FourHearts", "AceClubs", "FiveDiamonds", "SixSpades");
 			Assert.fail();
 		} catch (DuplicateCardException e) {
 			
@@ -27,7 +36,7 @@ public class TestGameLogic {
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
-			game.addHand(2, "ThreeSpades", "FourHearts", "AceClubs", "FiveDiamonds", "SixSpades");
+			game.addHand(2, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
 		} catch (DuplicateCardException e) {
 			Assert.fail();
 		}
