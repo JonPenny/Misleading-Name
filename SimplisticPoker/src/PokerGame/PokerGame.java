@@ -18,11 +18,18 @@ public class PokerGame {
 		hands[playerId - 1] = new Hand(carda, cardb, cardc, cardd, carde);
 	}
 
-	public void setNumPlayers(int numPlayers) {
+	public void setNumPlayers(int numPlayers) throws PlayerNumberException {
+		if(numPlayers<2||numPlayers>4){
+			throw new PokerExceptions.PlayerNumberException();
+		}
 		hands = new Hand[numPlayers];
 	}
 
-	public void getResults() {
-
+	public void getResults() throws PlayerNumberException {
+		for(int i=0; i<hands.length; i++){
+			if(hands[i]==null){
+				throw new PokerExceptions.PlayerNumberException();
+			}
+		}
 	}
 }
