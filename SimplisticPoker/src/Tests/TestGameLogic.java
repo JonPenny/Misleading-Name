@@ -1,8 +1,10 @@
 package Tests;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
-import PokerExceptions.*;
+
+import PokerExceptions.NumberCardsInHandException;
+import PokerExceptions.PlayerNumberException;
+import UserInterfaces.TextInterface;
 import PokerGame.PokerGame;
 import junit.framework.Assert;
 
@@ -43,11 +45,12 @@ public class TestGameLogic {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testNumberPlayers() { // Test that only 2,3,4 player can play
 		game = new PokerGame();
-		
-		//ensure that only the correct number players can join the game
+
+		// ensure that only the correct number players can join the game
 		game.reset();
 		try {
 			game.setNumPlayers(1);
@@ -66,8 +69,8 @@ public class TestGameLogic {
 		} catch (Exception e) {
 			Assert.fail();
 		}
-		
-		//ensure that only the correct number players can be dealed in
+
+		// ensure that only the correct number players can be dealed in
 		game.reset();
 		try {
 			game.setNumPlayers(2);
@@ -79,8 +82,8 @@ public class TestGameLogic {
 		} catch (Exception e) {
 
 		}
-		
-		//ensure that only the correct number players are dealed in
+
+		// ensure that only the correct number players are dealed in
 		game.reset();
 		try {
 			game.setNumPlayers(2);
@@ -102,12 +105,32 @@ public class TestGameLogic {
 			Assert.fail();
 		}
 	}
+
+	@Test
+	public void testCardsPerPlayer() { // Make sure that each player submits 5
+										// cards
+		TextInterface textUi = new TextInterface();
+		try {
+			textUi.parseNumPlayers("2");
+		} catch (Exception e) {
+			Assert.fail();
+		}
+		
+		try {
+			textUi.parseHand("ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
+		} catch (NumberCardsInHandException e) {
+			Assert.fail();
+		}
+		
+		try {
+			textUi.parseHand("FourHearts NineClubs FiveDiamonds SixSpades");
+			Assert.fail();
+		} catch (NumberCardsInHandException e) {
+			
+		}		
+	}
+
 	/**
-	 * @Test public void testCardsPerPlayer(){ //Make sure that each player
-	 *       submits 5 cards
-	 * 
-	 *       }
-	 * 
 	 * @Test public void testHandRanks(){ //Ensure that cards are ranked
 	 *       properly
 	 * 
