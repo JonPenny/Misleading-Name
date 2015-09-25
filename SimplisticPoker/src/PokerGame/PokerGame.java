@@ -1,9 +1,7 @@
 package PokerGame;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import PokerExceptions.*;
+import PokerExceptions.DuplicateCardException;
+import PokerExceptions.PlayerNumberException;
 
 public class PokerGame {
 	Hand[] hands;
