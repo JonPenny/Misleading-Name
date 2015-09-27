@@ -1,9 +1,12 @@
 package Tests;
 
+import java.rmi.UnexpectedException;
+
 import org.junit.Test;
 
 import PokerExceptions.NumberCardsInHandException;
 import PokerExceptions.PlayerNumberException;
+import PokerExceptions.UnrecognizedCardException;
 import UserInterfaces.TextInterface;
 import PokerGame.PokerGame;
 import junit.framework.Assert;
@@ -115,19 +118,43 @@ public class TestGameLogic {
 		} catch (Exception e) {
 			Assert.fail();
 		}
-		
+
 		try {
 			textUi.parseHand("ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
 		} catch (NumberCardsInHandException e) {
 			Assert.fail();
 		}
-		
+
 		try {
 			textUi.parseHand("FourHearts NineClubs FiveDiamonds SixSpades");
 			Assert.fail();
 		} catch (NumberCardsInHandException e) {
-			
-		}		
+
+		}
+	}
+
+	@Test
+	public void testCardInput() {
+		// ensure the given cards are valid
+		game = new PokerGame();
+		game.reset();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		game.reset();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpadees", "JackHurts", "AceClubs", "AceDiamonds", "TwoSpades");
+			Assert.fail();
+		} catch (Exception e) {
+
+		}
+
 	}
 
 	/**
