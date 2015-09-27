@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import PokerExceptions.NumberCardsInHandException;
 import PokerExceptions.PokerException;
+import PokerGame.Hand;
 import PokerGame.PokerGame;
 import UserInterfaces.TextInterface;
 import junit.framework.Assert;
@@ -25,7 +26,7 @@ public class TestGameLogic {
 		} catch (PokerException e) {
 
 		}
-		game.reset();
+		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "ThreeHearts", "FourClubs", "OneClubs", "ThreeClubs");
@@ -34,7 +35,7 @@ public class TestGameLogic {
 		} catch (PokerException e) {
 
 		}
-		game.reset();
+		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
@@ -50,7 +51,6 @@ public class TestGameLogic {
 		game = new PokerGame();
 
 		// ensure that only the correct number players can join the game
-		game.reset();
 		try {
 			game.setNumPlayers(1);
 			Assert.fail();
@@ -70,7 +70,6 @@ public class TestGameLogic {
 		}
 
 		// ensure that only the correct number players can be dealed in
-		game.reset();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
@@ -83,7 +82,7 @@ public class TestGameLogic {
 		}
 
 		// ensure that only the correct number players are dealed in
-		game.reset();
+		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
@@ -93,7 +92,7 @@ public class TestGameLogic {
 
 		}
 
-		game.reset();
+		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
@@ -133,7 +132,6 @@ public class TestGameLogic {
 	public void testCardInput() {
 		// ensure the given cards are valid
 		game = new PokerGame();
-		game.reset();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
@@ -142,23 +140,35 @@ public class TestGameLogic {
 			Assert.fail();
 		}
 
-		game.reset();
+		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpadees", "JackHurts", "AceClubs", "AceDiamonds", "TwoSpades");
 			Assert.fail();
 		} catch (Exception e) {
-			
+
 		}
 
 	}
 
+	@Test
+	public void testHandRanks() { // Ensure that cards are ranked properly
+		game = new PokerGame();
+		
+		//check for high card
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
+			game.addHand(2, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getPlayer()==1);
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 	/**
-	 * @Test public void testHandRanks(){ //Ensure that cards are ranked
-	 *       properly
-	 * 
-	 *       }
-	 * 
 	 * @Test public void testDuplicateHands(){ //Make sure that hands are ranked
 	 *       equal
 	 * 
