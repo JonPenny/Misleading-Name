@@ -1,20 +1,17 @@
 package Tests;
 
-import java.rmi.UnexpectedException;
-
 import org.junit.Test;
 
 import PokerExceptions.NumberCardsInHandException;
-import PokerExceptions.PlayerNumberException;
-import PokerExceptions.UnrecognizedCardException;
-import UserInterfaces.TextInterface;
+import PokerExceptions.PokerException;
 import PokerGame.PokerGame;
+import UserInterfaces.TextInterface;
 import junit.framework.Assert;
 
+@SuppressWarnings("deprecation")
 public class TestGameLogic {
 	PokerGame game;
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testDuplicates() {
 		// Make sure that the same card doesn't appear twice
@@ -25,7 +22,7 @@ public class TestGameLogic {
 			game.addHand(1, "AceSpades", "AceSpades", "AceSpades", "AceSpades", "AceSpades");
 			game.addHand(2, "ThreeSpades", "FourHearts", "AceClubs", "FiveDiamonds", "SixSpades");
 			Assert.fail();
-		} catch (Exception e) {
+		} catch (PokerException e) {
 
 		}
 		game.reset();
@@ -34,7 +31,7 @@ public class TestGameLogic {
 			game.addHand(1, "AceSpades", "ThreeHearts", "FourClubs", "OneClubs", "ThreeClubs");
 			game.addHand(2, "AceSpades", "FourHearts", "AceClubs", "FiveDiamonds", "SixSpades");
 			Assert.fail();
-		} catch (Exception e) {
+		} catch (PokerException e) {
 
 		}
 		game.reset();
@@ -42,13 +39,12 @@ public class TestGameLogic {
 			game.setNumPlayers(2);
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
 			game.addHand(2, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
-		} catch (Exception e) {
+		} catch (PokerException e) {
 			Assert.fail();
 		}
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testNumberPlayers() { // Test that only 2,3,4 player can play
 		game = new PokerGame();
@@ -82,7 +78,7 @@ public class TestGameLogic {
 			game.addHand(3, "FiveSpades", "SixHearts", "NineClubs", "EightDiamonds", "JackSpades");
 			game.getResults();
 			Assert.fail();
-		} catch (Exception e) {
+		} catch (PokerException e) {
 
 		}
 
@@ -93,7 +89,7 @@ public class TestGameLogic {
 			game.addHand(1, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
 			game.getResults();
 			Assert.fail();
-		} catch (Exception e) {
+		} catch (PokerException e) {
 
 		}
 
@@ -103,7 +99,7 @@ public class TestGameLogic {
 			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
 			game.addHand(2, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
 			game.getResults();
-		} catch (Exception e) {
+		} catch (PokerException e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
@@ -152,7 +148,7 @@ public class TestGameLogic {
 			game.addHand(1, "AceSpadees", "JackHurts", "AceClubs", "AceDiamonds", "TwoSpades");
 			Assert.fail();
 		} catch (Exception e) {
-
+			
 		}
 
 	}

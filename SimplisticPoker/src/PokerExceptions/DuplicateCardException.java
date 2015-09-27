@@ -1,6 +1,6 @@
 package PokerExceptions;
 
-public class DuplicateCardException extends Exception{
+public class DuplicateCardException extends PokerException{
 
 	/**
 	 * 

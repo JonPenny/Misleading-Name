@@ -1,6 +1,6 @@
 package PokerExceptions;
 
-public class PlayerNumberException extends PokerException{
+public class PokerException extends Exception{
 
 	/**
 	 * 
