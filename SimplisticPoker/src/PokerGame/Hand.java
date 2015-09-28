@@ -19,7 +19,7 @@ import PokerExceptions.UnrecognizedCardException;
  * @author jon
  *
  */
-public class Hand implements Comparable {
+public class Hand implements Comparable<Hand> {
 	private static String[] numbers = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
 			"jack", "queen", "king", "ace" };
 	private static String[] suits = { "hearts", "diamonds", "clubs", "spades" };
@@ -227,8 +227,9 @@ public class Hand implements Comparable {
 	}
 
 	/**
-	 * This function returns the value of the hand
-	 * It calculates it only if the value hasnt been found before
+	 * This function returns the value of the hand It calculates it only if the
+	 * value hasnt been found before
+	 * 
 	 * @return
 	 */
 	public int getValue() {
@@ -240,7 +241,9 @@ public class Hand implements Comparable {
 
 	/**
 	 * Constructor for a hand
-	 * @param player: the player's ID
+	 * 
+	 * @param player:
+	 *            the player's ID
 	 * @param carda
 	 * @param cardb
 	 * @param cardc
@@ -261,9 +264,10 @@ public class Hand implements Comparable {
 		checkValidity(cards);
 
 	}
-	
+
 	/**
 	 * Returns the id of the player the hand belongs to
+	 * 
 	 * @return
 	 */
 	public int getPlayer() {
@@ -274,18 +278,17 @@ public class Hand implements Comparable {
 	 * Compares 2 hand objects by their value
 	 */
 	@Override
-	public int compareTo(Object o) {
-		if (o instanceof Hand) {
-			if (getValue() > ((Hand) o).getValue()) {
-				return -1;
-			}
-			if (getValue() == ((Hand) o).getValue()) {
-				return 0;
-			}
-			if (getValue() < ((Hand) o).getValue()) {
-				return 1;
-			}
+	public int compareTo(Hand o) {
+		if (getValue() > ((Hand) o).getValue()) {
+			return -1;
 		}
+		if (getValue() == ((Hand) o).getValue()) {
+			return 0;
+		}
+		if (getValue() < ((Hand) o).getValue()) {
+			return 1;
+		}
+
 		return 0;
 	}
 
