@@ -158,8 +158,61 @@ public class TestGameLogic {
 		//check for high card
 		try {
 			game.setNumPlayers(2);
-			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "TwoSpades");
+			game.addHand(1, "AceSpades", "SixHearts", "EightClubs", "TwoDiamonds", "OneSpades");
 			game.addHand(2, "ThreeSpades", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getPlayer()==1);
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		game = new PokerGame();
+		//check for pairs and single
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "FourClubs", "OneHearts", "NineClubs", "FiveDiamonds", "SixSpades");
+			game.addHand(2, "AceSpades", "AceHearts", "EightClubs", "TwoDiamonds", "OneSpades");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[1].getPlayer()==1);
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		game = new PokerGame();
+		//check for pairs and triples
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "TwoDiamonds", "OneSpades");
+			game.addHand(2, "FourClubs", "FourHearts", "NineClubs", "FiveDiamonds", "SixSpades");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getPlayer()==1);
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		game = new PokerGame();
+		//check for fours and triples
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "OneSpades");
+			game.addHand(2, "FourClubs", "FourHearts", "ThreeClubs", "FiveDiamonds", "SixSpades");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getPlayer()==1);
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		
+		game = new PokerGame();
+		//check for fullhouse and 3s
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "OneDiamonds", "OneSpades");
+			game.addHand(2, "FourClubs", "FourHearts", "FourDiamonds", "FiveDiamonds", "SixSpades");
 			Hand res[] = game.getResults();
 			Assert.assertTrue(res[0].getPlayer()==1);
 		} catch (PokerException e) {
