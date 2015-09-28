@@ -6,6 +6,7 @@ Githubproject: https://github.com/JonPenny/Misleading-Name
 Name is misleading to prevent copying from classmates
 
 (I recomend reading this on github for the markup)
+
 Features  | Test
 ------------- | -------------
 Duplicate Cards from hand or others hand can not be played | testDuplicates line 26
