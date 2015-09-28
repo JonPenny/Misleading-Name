@@ -57,6 +57,19 @@ public class Hand implements Comparable {
 
 	}
 
+	// private void getSuit(){
+	//
+	// }
+	private int getNumber(String card) {
+		for (int i = 0; i < numbers.length; i++) {
+			if (card.toLowerCase().contains(numbers[i])) {
+				return i + 1;
+			}
+		}
+
+		return 0;
+	}
+
 	private int calculateValue() {
 		String[] hand = cards.toArray(new String[cards.size()]);
 		// check for Royal Flush (straight ten to ace, same suit) 23
@@ -72,16 +85,50 @@ public class Hand implements Comparable {
 		// check for three of a kind 17
 		// check for Two pair 16
 		// check for one pair 15
+		{
+			Map<Integer, Integer> cardMap = new HashMap<Integer, Integer>();
+			for (String cc : hand) {
+				if (cardMap.containsKey(getNumber(cc))) {
+					cardMap.put(getNumber(cc), cardMap.get(getNumber(cc)) + 1);
+				} else {
+					cardMap.put(getNumber(cc), 1);
+				}
+			}
+			Collection<Integer> counts = cardMap.values();
+			boolean has3 = false;
+			boolean has2 = false;
+			for (int i : counts) {
+				if (i == 4) {
+					return 21;
+				}
+				if (i == 3) {
+					has3 = true;
+				}
+				if (i == 2) {
+					if (has2) {
+						return 16;
+					}
+					has2 = true;
+				}
+			}
+			if (has2 && has3) {
+				return 20;
+			}
+			if (has3) {
+				return 17;
+			}
+			if (has2) {
+				return 15;
+			}
 
+		}
 		// check for high card 0-14 0;
 		{
 			int high = 0;
 			for (int i = 0; i < numbers.length; i++) {
 				for (String cc : hand) {
-
 					if (cc.toLowerCase().contains(numbers[numbers.length - i - 1])) {
 						if (numbers.length - i > high) {
-							System.out.println(cc + (numbers[numbers.length - i - 1]));
 							high = numbers.length - i;
 						}
 					}
