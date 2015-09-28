@@ -1,5 +1,6 @@
 package PokerGame;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,9 +58,16 @@ public class Hand implements Comparable {
 
 	}
 
-	// private void getSuit(){
-	//
-	// }
+	private String getSuit(String card) {
+		for (int i = 0; i < suits.length; i++) {
+			if (card.toLowerCase().contains(suits[i])) {
+				return suits[i];
+			}
+		}
+
+		return "";
+	}
+
 	private int getNumber(String card) {
 		for (int i = 0; i < numbers.length; i++) {
 			if (card.toLowerCase().contains(numbers[i])) {
@@ -73,12 +81,58 @@ public class Hand implements Comparable {
 	private int calculateValue() {
 		String[] hand = cards.toArray(new String[cards.size()]);
 		// check for Royal Flush (straight ten to ace, same suit) 23
-
 		// check for straight flush (straight, same suit) 22
-
-		// check for flush 19
-
 		// check for straight 18
+		{
+			// check for 5 in a row
+			Set<Integer> numSet = new HashSet<Integer>();
+			for (String cc : hand) {
+				numSet.add(getNumber(cc));
+			}
+			if (numSet.size() == 5) {
+				// there are no repeat numbers
+				Integer[] nums = numSet.toArray(new Integer[numSet.size()]);
+				Arrays.sort(nums);
+				boolean straight = true;
+				int num = nums[0];
+				for (int i = 1; i < nums.length; i++) {
+					if (nums[i] == num + 1) {
+						num += 1;
+					} else {
+						straight = false;
+						break;
+					}
+				}
+				if (straight) {
+					// we have a straight!
+					Set<String> suitSet = new HashSet<String>();
+					for (String i : hand) {
+						suitSet.add(getSuit(i));
+					}
+					if (suitSet.size() == 1) {
+						// they are the same suit!
+						if (nums[0] == 10) {
+							// its royal flush
+							return 23;
+						}
+						// straight flush
+						return 22;
+					}
+					// straight
+					return 18;
+				}
+			}
+		}
+		{
+			// check for flush 19
+			Set<String> suitSet = new HashSet<String>();
+			for (String i : hand) {
+				suitSet.add(getSuit(i));
+			}
+			if (suitSet.size() == 1) {
+				return 19;
+			}
+		}
 
 		// check for four of a kind (hiest single card) 21
 		// check for full house(3 of a kind + 2 of a kind) 20
