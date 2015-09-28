@@ -1,8 +1,12 @@
 # Misleading-Name
 Name:  Penny, Jonathan
+
 SN: 100884228
+
 GitHub: jonpenny
+
 Githubproject: https://github.com/JonPenny/Misleading-Name
+
 Name is misleading to prevent copying from classmates
 
 (I recomend reading this on github for the markup)
