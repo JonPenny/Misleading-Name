@@ -374,10 +374,9 @@ public class TestGameLogic {
 			game.addHand(9, "AceSpades", "TwoHearts", "JackClubs", "SixDiamonds", "KingHearts");
 			game.addHand(2, "AceDiamonds", "FourClubs", "JackHearts", "OneSpades", "KingDiamonds");
 			Hand res[] = game.getResults();
-			Assert.assertTrue(res[0].getValue() == res[1].getValue());
-		} catch (PokerException e) {
-			e.printStackTrace();
 			Assert.fail();
+		} catch (PokerException e) {
+
 		}
 	}
 	/**
