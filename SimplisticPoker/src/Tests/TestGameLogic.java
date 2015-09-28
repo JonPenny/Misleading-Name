@@ -1,6 +1,11 @@
 package Tests;
 
+import java.io.File;
+import java.net.URL;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 import PokerExceptions.DuplicateCardException;
 import PokerExceptions.NumberCardsInHandException;
@@ -9,6 +14,7 @@ import PokerExceptions.PokerException;
 import PokerExceptions.UnrecognizedCardException;
 import PokerGame.Hand;
 import PokerGame.PokerGame;
+import UserInterfaces.TestInterface;
 import UserInterfaces.TextInterface;
 import junit.framework.Assert;
 
@@ -119,7 +125,8 @@ public class TestGameLogic {
 
 		try {
 			textUi.parseHand("2 ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
-		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException | PlayerNumberException e) {
+		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException
+				| PlayerNumberException e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
@@ -127,7 +134,8 @@ public class TestGameLogic {
 		try {
 			textUi.parseHand("FourHearts NineClubs FiveDiamonds SixSpades");
 			Assert.fail();
-		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException | PlayerNumberException e) {
+		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException
+				| PlayerNumberException e) {
 
 		}
 	}
@@ -240,6 +248,7 @@ public class TestGameLogic {
 		game = new PokerGame();
 		try {
 			game.setNumPlayers(2);
+
 			game.addHand(2, "TenHearts", "JackHearts", "QueenHearts", "KingHearts", "AceHearts");
 			game.addHand(1, "twoClubs", "NineClubs", "fourClubs", "FiveClubs", "SixClubs");
 			Hand res[] = game.getResults();
@@ -383,8 +392,10 @@ public class TestGameLogic {
 		}
 	}
 
-	@Test public void testOrderEntry(){ //make sure that subissions are id then cards 
-		
+	@Test
+	public void testOrderEntry() { // make sure that subissions are id then
+									// cards
+
 		TextInterface textUi = new TextInterface();
 		try {
 			textUi.parseNumPlayers("2");
@@ -405,6 +416,18 @@ public class TestGameLogic {
 		} catch (NumberFormatException | NumberCardsInHandException | DuplicateCardException | UnrecognizedCardException
 				| PlayerNumberException e) {
 		}
+	}
+
+	@Rule
+	public Timeout globalTimeout = new Timeout(25);
+
+	@Test
+	public void testTestInterface() throws InterruptedException{
+		TestInterface ui = new TestInterface();
+		URL url = Thread.currentThread().getContextClassLoader().getResource("Tests/testInput.txt");
+		File file  = new File(url.getPath());
+		ui.setScannerInput(file);
+		ui.run();
 	}
 
 }
