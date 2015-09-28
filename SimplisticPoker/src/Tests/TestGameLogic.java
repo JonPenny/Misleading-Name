@@ -2,8 +2,11 @@ package Tests;
 
 import org.junit.Test;
 
+import PokerExceptions.DuplicateCardException;
 import PokerExceptions.NumberCardsInHandException;
+import PokerExceptions.PlayerNumberException;
 import PokerExceptions.PokerException;
+import PokerExceptions.UnrecognizedCardException;
 import PokerGame.Hand;
 import PokerGame.PokerGame;
 import UserInterfaces.TextInterface;
@@ -115,15 +118,16 @@ public class TestGameLogic {
 		}
 
 		try {
-			textUi.parseHand("ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
-		} catch (NumberCardsInHandException e) {
+			textUi.parseHand("2 ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
+		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException | PlayerNumberException e) {
+			e.printStackTrace();
 			Assert.fail();
 		}
 
 		try {
 			textUi.parseHand("FourHearts NineClubs FiveDiamonds SixSpades");
 			Assert.fail();
-		} catch (NumberCardsInHandException e) {
+		} catch (NumberCardsInHandException | NumberFormatException | DuplicateCardException | UnrecognizedCardException | PlayerNumberException e) {
 
 		}
 	}
@@ -373,14 +377,34 @@ public class TestGameLogic {
 			game.setNumPlayers(2);
 			game.addHand(9, "AceSpades", "TwoHearts", "JackClubs", "SixDiamonds", "KingHearts");
 			game.addHand(2, "AceDiamonds", "FourClubs", "JackHearts", "OneSpades", "KingDiamonds");
-			Hand res[] = game.getResults();
 			Assert.fail();
 		} catch (PokerException e) {
 
 		}
 	}
-	/**
-	 * @Test public void testOrderEntry(){ //make sure that subissions are id
-	 *       then cards }
-	 **/
+
+	@Test public void testOrderEntry(){ //make sure that subissions are id then cards 
+		
+		TextInterface textUi = new TextInterface();
+		try {
+			textUi.parseNumPlayers("2");
+		} catch (NumberFormatException | PlayerNumberException e1) {
+			Assert.fail();
+		}
+
+		try {
+			textUi.parseHand("ThreeSpades FourHearts NineClubs FiveDiamonds SixSpades");
+			Assert.fail();
+		} catch (NumberFormatException | NumberCardsInHandException | DuplicateCardException | UnrecognizedCardException
+				| PlayerNumberException e) {
+		}
+
+		try {
+			textUi.parseHand("FourHearts NineClubs FiveDiamonds SixSpades");
+			Assert.fail();
+		} catch (NumberFormatException | NumberCardsInHandException | DuplicateCardException | UnrecognizedCardException
+				| PlayerNumberException e) {
+		}
+	}
+
 }

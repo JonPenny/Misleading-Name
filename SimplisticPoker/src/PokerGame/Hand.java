@@ -11,6 +11,14 @@ import java.util.Set;
 import PokerExceptions.DuplicateCardException;
 import PokerExceptions.UnrecognizedCardException;
 
+/**
+ * This class stores the value of a player hand in poker Its static classes are
+ * used to calculate the scores of a players hand They are comparable based off
+ * of the value of the hand
+ * 
+ * @author jon
+ *
+ */
 public class Hand implements Comparable {
 	private static String[] numbers = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
 			"jack", "queen", "king", "ace" };
@@ -26,6 +34,14 @@ public class Hand implements Comparable {
 	private int player;
 	Set<String> cards;
 
+	/**
+	 * This function is used to ensure that all of the cards given in a hand are
+	 * all valid There can be no duplicates or made up cards
+	 * 
+	 * @param cards
+	 * @throws DuplicateCardException
+	 * @throws UnrecognizedCardException
+	 */
 	public static void checkValidity(Set<String> cards) throws DuplicateCardException, UnrecognizedCardException {
 		// see if hand has any duplicates
 		if (cards.size() != 5) {
@@ -58,7 +74,13 @@ public class Hand implements Comparable {
 
 	}
 
-	private String getSuit(String card) {
+	/**
+	 * Helper class the disects a card string and returns the suit
+	 * 
+	 * @param card
+	 * @return
+	 */
+	private static String getSuit(String card) {
 		for (int i = 0; i < suits.length; i++) {
 			if (card.toLowerCase().contains(suits[i])) {
 				return suits[i];
@@ -68,7 +90,13 @@ public class Hand implements Comparable {
 		return "";
 	}
 
-	private int getNumber(String card) {
+	/**
+	 * Helper class the disects a card string and returns the number
+	 * 
+	 * @param card
+	 * @return
+	 */
+	private static int getNumber(String card) {
 		for (int i = 0; i < numbers.length; i++) {
 			if (card.toLowerCase().contains(numbers[i])) {
 				return i + 1;
@@ -78,6 +106,11 @@ public class Hand implements Comparable {
 		return 0;
 	}
 
+	/**
+	 * This function takes the cards in the hand and calculates it's score
+	 * 
+	 * @return
+	 */
 	private int calculateValue() {
 		String[] hand = cards.toArray(new String[cards.size()]);
 		// check for Royal Flush (straight ten to ace, same suit) 23
@@ -193,6 +226,11 @@ public class Hand implements Comparable {
 		}
 	}
 
+	/**
+	 * This function returns the value of the hand
+	 * It calculates it only if the value hasnt been found before
+	 * @return
+	 */
 	public int getValue() {
 		if (value == 0) {
 			value = calculateValue();
@@ -200,6 +238,17 @@ public class Hand implements Comparable {
 		return value;
 	}
 
+	/**
+	 * Constructor for a hand
+	 * @param player: the player's ID
+	 * @param carda
+	 * @param cardb
+	 * @param cardc
+	 * @param cardd
+	 * @param carde
+	 * @throws DuplicateCardException
+	 * @throws UnrecognizedCardException
+	 */
 	public Hand(int player, String carda, String cardb, String cardc, String cardd, String carde)
 			throws DuplicateCardException, UnrecognizedCardException {
 		this.player = player;
@@ -212,15 +261,18 @@ public class Hand implements Comparable {
 		checkValidity(cards);
 
 	}
-
+	
+	/**
+	 * Returns the id of the player the hand belongs to
+	 * @return
+	 */
 	public int getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(int player) {
-		this.player = player;
-	}
-
+	/**
+	 * Compares 2 hand objects by their value
+	 */
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Hand) {
@@ -237,6 +289,9 @@ public class Hand implements Comparable {
 		return 0;
 	}
 
+	/**
+	 * To string override to display the cards and score of a playser hand
+	 */
 	public String toString() {
 		String string = "Player " + player + " Score:" + getValue() + " Hand ";
 		for (String i : cards) {
