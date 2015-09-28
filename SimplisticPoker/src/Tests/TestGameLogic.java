@@ -246,16 +246,141 @@ public class TestGameLogic {
 		}
 	}
 
+	@Test
+	public void testDuplicateHands() { // Make sure that hands are ranked equal
+		// check Flushes
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "TenHearts", "JackHearts", "QueenHearts", "KingHearts", "AceHearts");
+			game.addHand(2, "TenClubs", "JackClubs", "QueenClubs", "KingClubs", "AceClubs");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check Straight flush
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "TenHearts", "JackHearts", "QueenHearts", "KingHearts", "NineHearts");
+			game.addHand(2, "TenClubs", "JackClubs", "QueenClubs", "KingClubs", "NineClubs");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check straight
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "TenDiamonds", "JackHearts", "QueenHearts", "KingHearts", "NineHearts");
+			game.addHand(2, "TenHearts", "JackClubs", "QueenClubs", "KingClubs", "NineClubs");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check fours
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "AceDiamonds", "OneSpades");
+			game.addHand(2, "FourDiamonds", "FourClubs", "FourHearts", "FourSpades", "OneDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check 3-2
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "SixDiamonds", "SixHearts");
+			game.addHand(2, "FourDiamonds", "FourClubs", "FourHearts", "OneSpades", "OneDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check 3s
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "AceClubs", "SixDiamonds", "SevenHearts");
+			game.addHand(2, "FourDiamonds", "FourClubs", "FourHearts", "OneSpades", "NineDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check 2-2
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "JackClubs", "SixDiamonds", "SixHearts");
+			game.addHand(2, "FourDiamonds", "FourClubs", "JackHearts", "OneSpades", "OneDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check 2s
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "AceHearts", "JackClubs", "SixDiamonds", "KingHearts");
+			game.addHand(2, "FourDiamonds", "FourClubs", "JackHearts", "OneSpades", "KingDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		// Check highCard
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(1, "AceSpades", "TwoHearts", "JackClubs", "SixDiamonds", "KingHearts");
+			game.addHand(2, "AceDiamonds", "FourClubs", "JackHearts", "OneSpades", "KingDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void testPlayerIds() { // Ensure that that ids given are used
+		game = new PokerGame();
+		try {
+			game.setNumPlayers(2);
+			game.addHand(9, "AceSpades", "TwoHearts", "JackClubs", "SixDiamonds", "KingHearts");
+			game.addHand(2, "AceDiamonds", "FourClubs", "JackHearts", "OneSpades", "KingDiamonds");
+			Hand res[] = game.getResults();
+			Assert.assertTrue(res[0].getValue() == res[1].getValue());
+		} catch (PokerException e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 	/**
-	 * @Test public void testDuplicateHands(){ //Make sure that hands are ranked
-	 *       equal
-	 * 
-	 *       }
-	 * 
-	 * @Test public void testPlayerIds(){ //Ensure that that ids given are used
-	 * 
-	 *       }
-	 * 
 	 * @Test public void testOrderEntry(){ //make sure that subissions are id
 	 *       then cards }
 	 **/
